@@ -8,9 +8,9 @@
   hosts: localhost
   tasks:
     - set_fact:
-        vm_name: ""
-        datacenter: ""
-
+        vm_name: "VM_0003"
+        datacenter: "DC1" 
+    
     - name: Remove "{{ vm_name }}"
       vmware_guest:
         hostname: "{{ vcenter_server }}"
