@@ -1,29 +1,17 @@
 ---
+- hosts: localhost 
+  gather_facts: false
+  vars_files:
+      ./vars/vcenter_vars.yaml
 
-- name: Gather inforation about all datacenters
-     gather_facts: false
-     vars_file:
-       - ./vars/vcenter_vars.yaml
-     vars:
-       ansible_python_interpreter: "/usr/bin/env python3"
-     tasks:
-		
-	-name: Gather information about all datacenters
-  	   community.vmware.vmware_datacenter_info:
-           hostname: '{{ dev_vcenter_server }}'
-           username: '{{ vcenter_user }}'
-           password: '{{ vcenter_pass }}'
-           delegate_to: localhost
-
-
-
-
-
-
-
-
-
-
+  tasks:
+    - name: Gather information about all datacenters
+      community.vmware.vmware_datacenter_info:
+        hostname: '{{ vcenter_server }}'
+        username: '{{ vcenter_user }}'
+        password: '{{ vcenter_pass }}'
+        validate_certs: no
+      delegate_to: localhost
 
 
 
