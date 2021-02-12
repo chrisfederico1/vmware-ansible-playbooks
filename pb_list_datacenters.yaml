@@ -1,37 +1,52 @@
 ---
 
-- name: Get Datacenters from VC API
-  hosts: localhost
-  gather_facts: no
-  vars_files:
-    - ./vars/vcenter_vars.yaml
-  vars:
-    ansible_python_interpreter: "/usr/bin/env python3"
-  tasks:
+- name: Gather inforation about all datacenters
+     gather_facts: false
+     vars_file:
+       - ./vars/vcenter_vars.yaml
+     vars:
+       ansible_python_interpreter: "/usr/bin/env python3"
+     tasks:
+		
+	-name: Gather information about all datacenters
+  	   community.vmware.vmware_datacenter_info:
+           hostname: '{{ dev_vcenter_server }}'
+           username: '{{ vcenter_user }}'
+           password: '{{ vcenter_pass }}'
+           delegate_to: localhost
 
-  - name: Login into vCenter
-    uri:
-      url: https://{{ vcenter_server }}/rest/com/vmware/cis/session
-      force_basic_auth: yes
-      validate_certs: false
-      method: POST
-      user: '{{ vcenter_user }}'
-      password: '{{ vcenter_pass }}'
-    register: login
 
-  - name: Get list of datacenters from vcenter
-    uri:
-      url: https://{{ vcenter_server }}/rest/vcenter/datacenter
-      force_basic_auth: yes
-      validate_certs: false
-      headers:
-          Cookie: "{{ login.set_cookie }}"
-    register: vDatacenters
 
-  - name: Print names of datacenters in the given vCenter
-    debug:
-      msg: "{{ item.name }}"
-    with_items: "{{ vDatacenters.json.value }}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
